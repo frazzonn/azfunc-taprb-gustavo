@@ -190,3 +190,64 @@ def extract_clientes_organizacao(myTimer: func.TimerRequest) -> None:
     cursor.execute("SELECT * FROM itsm.cliente_organizacao")
     for i in cursor.fetchall():
         logging.info(i)
+
+
+@app.function_name(name="Timercsat")
+@app.timer_trigger(schedule="0 * * * * *", arg_name="myTimer", run_on_startup=False,
+            use_monitor=False) 
+
+def extract_csat(myTimer: func.TimerRequest) -> None:
+
+    host = os.getenv("host")
+    database = os.getenv("database")
+    user = os.getenv("user")
+    password = os.getenv("password")
+
+    conn_str = (
+        "DRIVER={ODBC Driver 18 for SQL Server};"
+        f"SERVER={host};"
+        f"DATABASE={database};"
+        f"UID={user};"
+        f"PWD={password};"
+        "Encrypt=yes;"
+        "TrustServerCertificate=no;"
+        "Connection Timeout=30;"
+    )
+    
+    connection = pyodbc.connect(conn_str)
+    logging.info("Conectado!")
+    cursor = connection.cursor()
+    
+    cursor.execute("SELECT * FROM itsm.csat_avaliacao")
+    for i in cursor.fetchall():
+        logging.info(i)
+
+@app.function_name(name="TimerFila")
+@app.timer_trigger(schedule="0 * * * * *", arg_name="myTimer", run_on_startup=False,
+            use_monitor=False) 
+
+def extract_fila(myTimer: func.TimerRequest) -> None:
+
+    host = os.getenv("host")
+    database = os.getenv("database")
+    user = os.getenv("user")
+    password = os.getenv("password")
+
+    conn_str = (
+        "DRIVER={ODBC Driver 18 for SQL Server};"
+        f"SERVER={host};"
+        f"DATABASE={database};"
+        f"UID={user};"
+        f"PWD={password};"
+        "Encrypt=yes;"
+        "TrustServerCertificate=no;"
+        "Connection Timeout=30;"
+    )
+    
+    connection = pyodbc.connect(conn_str)
+    logging.info("Conectado!")
+    cursor = connection.cursor()
+    
+    cursor.execute("SELECT * FROM itsm.fila")
+    for i in cursor.fetchall():
+        logging.info(i)
