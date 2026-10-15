@@ -9,5 +9,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: python-3 --version
-      - run: python-3 -m py_compile function_app.py
+      - run: python3 --version
+      - run: python3 -m py_compile function_app.py
